@@ -5,7 +5,13 @@ class BoltMessenger {
     this.currentChat = null;
     this.chats = [];
     this.socket = null;
-    this.apiUrl = 'http://localhost:5000/api';
+    
+    // Auto-detect API URL
+    const protocol = window.location.protocol;
+    const host = window.location.host;
+    this.apiUrl = `${protocol}//${host}/api`;
+    
+    console.log('API URL:', this.apiUrl);
     this.init();
   }
 
@@ -31,7 +37,9 @@ class BoltMessenger {
   }
 
   connectSocket() {
-    this.socket = io('http://localhost:5000', {
+    // Auto-detect socket URL
+    const socketUrl = `${window.location.protocol}//${window.location.host}`;
+    this.socket = io(socketUrl, {
       auth: { token: this.token }
     });
 
